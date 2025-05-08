@@ -1,0 +1,11 @@
+---
+import type { Item } from '../types/api'
+const { character } = Astro.props
+const { name, image, ki }: Item = character
+---
+
+<a href=`/characters/${name}` class='border-2 border-solid border-primary rounded-xl p-8 relative flex flex-col items-center'>
+  <p class='absolute bottom-3 right-0 rounded-l-md bg-primary text-black px-3'>KI: {ki}</p>
+  <img src={image} alt=`img-${name}` class='h-55 my-6' />
+  <h3 class='text-xl absolute top-3 left-0 rounded-r-md bg-primary text-black px-4'>{name}</h3>
+</a>
