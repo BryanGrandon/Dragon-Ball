@@ -5,7 +5,7 @@ import { getCharacters } from '../services/dragonBall'
 const characters = await getCharacters()
 ---
 
-<Layout>
+<Layout title='Dragon Ball'>
   <header class='flex flex-col items-center justify-center h-75 gap-4 bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-bottom overlay p-4'>
     <h1 class='text-4xl font-bold font-serif relative'>Dragon Ball</h1>
     <p class='relative max-w-7xl text-center'>
@@ -17,7 +17,7 @@ const characters = await getCharacters()
     <article>
       <h2>Characters</h2>
       <article class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-width'>
-        {characters.map((character) => <CharacterCard character={character} />)}
+        {characters.map((character) => <CharacterCard name={character.name} image={character.image} ki={character.ki} id={character.id} />)}
       </article>
     </article>
   </main>
