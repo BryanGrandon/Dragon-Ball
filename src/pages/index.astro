@@ -16,7 +16,7 @@ const characters = await getCharacters()
   <main>
     <article>
       <h2>Characters</h2>
-      <article class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-width'>
+      <article class='grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-4 max-width'>
         {characters.map((character) => <CharacterCard name={character.name} image={character.image} ki={character.ki} id={character.id} />)}
       </article>
     </article>

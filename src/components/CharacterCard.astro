@@ -1,9 +1,23 @@
 ---
 const { name, image, ki, id } = Astro.props
+const urlImage = 'https://c.wallhere.com/photos/14/83/ultrawide_artwork_event_horizon_black_holes_Midjourney_AI_space_supermassive_black_hole_digital_art-2165249.jpg!d'
+// const urlImage = 'https://c.wallhere.com/photos/ea/23/space_digital_art_stars_vignette_glowing-2270556.jpg!d'
+// const urlImage = 'https://c.wallhere.com/photos/3a/9c/purple_space_black_holes_galaxy_digital_art_space_art_artwork-41439.jpg!d'
 ---
 
-<a href=`/character/${id}` class='border-2 border-solid border-primary rounded-xl p-8 relative flex flex-col items-center'>
-  <p class='absolute bottom-3 right-0 rounded-l-md bg-primary text-black px-3'>KI: {ki}</p>
-  <img src={image} alt=`img-${name}` class='h-55 my-6' />
-  <h3 class='text-xl absolute top-3 left-0 rounded-r-md bg-primary text-black px-4'>{name}</h3>
+<a
+  href=`/character/${id}`
+  class='border-2 border-solid border-white hover:border-primary rounded-xl p-8 relative flex flex-col items-center bg-cover bg-center overlay overflow-hidden'
+  style={{ backgroundImage: `url(${urlImage})` }}
+>
+  <h3 class='text-xl absolute top-3 left-0 rounded-r-md bg-white text-black px-4'>{name}</h3>
+  <img src={image} alt=`img-${name}` class='h-55 my-6 relative drop-shadow-xl drop-shadow-gray-500' />
+  <p class='absolute bottom-3 right-0 rounded-l-md bg-white text-black px-3'>KI: {ki}</p>
 </a>
+
+<style>
+  a:hover h3,
+  a:hover p {
+    background-color: var(--primary);
+  }
+</style>

@@ -2,8 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-primary: #ef5808;
-  --color-secondary: #6b03fc;
+  --color-primary: #ff7129;
+  --color-secondary: #efe803;
   --color-background: #ef5808;
 }
 

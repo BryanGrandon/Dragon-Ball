@@ -3,6 +3,7 @@ import { transformer } from 'astro:schema'
 import Layout from '../../layouts/Layout.astro'
 import { getCharacters, getCharacterForId } from '../../services/dragonBall'
 import CharacterCard from '../../components/CharacterCard.astro'
+import Tag from '../../components/Tag.astro'
 
 export async function getStaticPaths() {
   const characters = await getCharacters()
@@ -22,37 +23,43 @@ const { name, image, ki, maxKi, race, description, transformations, originPlanet
     <h1 class='text-4xl'>{name}</h1>
   </header>
   <main class='max-width p-4 grid gap-8'>
-    <article class='grid grid-cols-1 lg:grid-cols-[1fr_2.5fr] gap-8'>
-      <section class='relative pt-8 pb-18 object-contain flex flex-col items-center justify-center rounded-xl bg-black'>
-        <img src={image} alt={`img-${name}`} class='h-full object-contain max-h-85' />
-        <p class='absolute top-1 right-2'>Race: <span class='text-secondary'>{race}</span></p>
-        <section class='absolute bottom-1 left-2 flex flex-col gap-1'>
-          <p class=''>KI: <span class='text-secondary'>{ki}</span></p>
-          <p class=''>Max KI: <span class='text-secondary'>{maxKi}</span></p>
+    <article class=''>
+      <section class='grid grid-cols-1 lg:grid-cols-[1fr_2.5fr] gap-8'>
+        <section
+          class='pt-12 pb-18 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-bottom overlay overflow-hidden shadow-lg shadow-black'
+        >
+          <img src={image} alt={`img-${name}`} class='h-full object-contain max-h-85 relative m-auto' />
+          <Tag text='Origin:' highlight={originPlanet.name} theClass='absolute top-2 left-4' />
+          <section class='absolute bottom-2 left-4 flex flex-col gap-1'>
+            <Tag text='Ki:' highlight={ki} />
+            <Tag text='Max Ki:' highlight={maxKi} />
+          </section>
+          <Tag text='Race:' highlight={race} theClass='absolute bottom-2 right-4' />
+          <img src={originPlanet.image} alt={`img-planet-${originPlanet.name}`} class='h-20 object-contain rounded-md absolute top-0 right-0' />
         </section>
-      </section>
-      <article class='prose-lg dark:prose-invert'>
-        <h2 class='text-2xl'>Description</h2>
-        <p>{description}</p>
-      </article>
-    </article>
-    <article>
-      <h2>Origin Planet</h2>
-      <section class='flex flex-col-reverse lg:flex-row items-center gap-8'>
-        <section>
-          <img src={originPlanet.image} alt='' class='rounded-2xl h-80 w-auto min-w-80 test object-contain lg:object-cover' />
-        </section>
-        <section class='prose-lg dark:prose-invert'>
-          <h3>{originPlanet.name}</h3>
-          <p>{originPlanet.description}</p>
-        </section>
+        <article class='prose-lg dark:prose-invert'>
+          <h2>Description</h2>
+          <p>{description}</p>
+        </article>
       </section>
     </article>
-    <article>
-      <h2>Transformations</h2>
-      <section class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
-        {transformations.map((transformation) => <CharacterCard name={transformation.name} ki={transformation.ki} image={transformation.image} id={id} />)}
-      </section>
+
+    <article class='prose-lg dark:prose-invert'>
+      <h2>Origin Planet: {originPlanet.name}</h2>
+      <p>{originPlanet.description}</p>
     </article>
+
+    {
+      transformations.length !== 0 ? (
+        <article>
+          <h2>Transformations</h2>
+          <section class='grid grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-4'>
+            {transformations.map((transformation) => (
+              <CharacterCard name={transformation.name} ki={transformation.ki} image={transformation.image} id={id} />
+            ))}
+          </section>
+        </article>
+      ) : null
+    }
   </main>
 </Layout>
