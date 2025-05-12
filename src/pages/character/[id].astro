@@ -3,7 +3,11 @@ import { transformer } from 'astro:schema'
 import Layout from '../../layouts/Layout.astro'
 import { getCharacters, getCharacterForId } from '../../services/dragonBall'
 import CharacterCard from '../../components/CharacterCard.astro'
+import INext from '../../components/icons/INext.astro'
+import IPrev from '../../components/icons/IPrev.astro'
+import IHome from '../../components/icons/IHome.astro'
 import Tag from '../../components/Tag.astro'
+import Title from '../../components/Title.astro'
 
 export async function getStaticPaths() {
   const characters = await getCharacters()
@@ -12,23 +16,47 @@ export async function getStaticPaths() {
   }))
 }
 
-const { id } = Astro.params
+export const prerender = true
 
-const data = await getCharacterForId(`${id}`)
-const { name, image, ki, maxKi, race, description, transformations, originPlanet, gender } = data
+const { id } = Astro.params
+const info = await getCharacterForId(`${id}`)
+
+if (info.statusCode === 400) {
+  return Astro.redirect(`/character/${1 + Number(id)}`)
+}
+
+const { name, image, ki, maxKi, race, description, transformations, originPlanet, gender } = info
+
+const infoPrev = await getCharacterForId(`${Number(id) - 1}`)
+const infoNext = await getCharacterForId(`${1 + Number(id)}`)
+const next = `/character/` + (1 + Number(id))
+const prev = `/character/` + (Number(id) - 1)
 ---
 
 <Layout title={`Character`}>
-  <header>
-    <h1 class='text-4xl'>{name}</h1>
+  <header class='bg-primary-light dark:bg-primary sticky top-0 z-10'>
+    <article class='flex items-center justify-between max-width px-4 py-2 text-white dark:text-black'>
+      <a href='/' class='hover:scale-115'><IHome /></a>
+      <Title text={name} />
+      <section class='flex items-center gap-4'>
+        <a href={infoPrev.statusCode !== 400 ? prev : '/'} class='hover:scale-115'><IPrev /></a>
+        {
+          infoNext.statusCode !== 400 ? (
+            <a href={next} class='hover:scale-115'>
+              <INext />
+            </a>
+          ) : null
+        }
+      </section>
+    </article>
   </header>
   <main class='max-width p-4 grid'>
     <article class='grid grid-cols-1 lg:grid-cols-[20rem_2.5fr] lg:gap-8'>
-      <section class='grid grid-cols-1 sm:grid-cols-[20rem_2.5fr] lg:flex lg:flex-col gap-8'>
+      <section class='grid grid-cols-1 sm:grid-cols-[20rem_2.5fr] lg:flex lg:flex-col gap-8 pt-10'>
         <section
           class='p-10 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-start overlay overflow-hidden shadow-md shadow-black'
         >
-          <img src={image} alt={`img-${name}`} class='h-full object-contain max-h-85 relative m-auto' />
+          <img src={image} alt={`img-${name}`} class='h-full object-contain max-h-85 relative m-auto drop-shadow-md drop-shadow-gray-500' />
         </section>
         <section class='flex flex-col gap-2 p-4'>
           <Tag text='Race:' highlight={race} />
@@ -40,19 +68,19 @@ const { name, image, ki, maxKi, race, description, transformations, originPlanet
       </section>
       <article class='prose-lg dark:prose-invert'>
         <section>
-          <h2>Description</h2>
+          <Title text='Description' theClass='tracking-widest' />
           <p>{description}</p>
         </section>
 
         <section>
-          <h2>Origin Planet: {originPlanet.name}</h2>
+          <Title text='Origin Planet:' theClass='tracking-widest' highlight={originPlanet.name} />
           <p>{originPlanet.description}</p>
         </section>
 
         {
           transformations.length !== 0 ? (
             <article>
-              <h2>Transformations</h2>
+              <Title text='Transformations of' theClass='tracking-widest' highlight={name} />
               <section class='grid grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-4 not-prose'>
                 {transformations.map((transformation) => (
                   <CharacterCard name={transformation.name} ki={transformation.ki} image={transformation.image} id={id} />

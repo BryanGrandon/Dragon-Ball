@@ -9,6 +9,7 @@ export interface APICharacterResponse {
   readonly image: string
   readonly affiliation: string
   readonly deletedAt: null
+  readonly statusCode: number
   readonly originPlanet: OriginPlanet
   readonly transformations: Transformation[]
 }

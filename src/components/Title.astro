@@ -1,0 +1,25 @@
+---
+interface Props {
+  text: string
+  theClass?: string
+  highlight?: string
+}
+
+const { text = '', theClass, highlight } = Astro.props
+---
+
+<h2 id='title' class={`text-3xl font-bold tracking-wide ${theClass}`}>{text} {highlight ? <span class='text-primary-light dark:text-primary '>{highlight}</span> : null}</h2>
+
+<style>
+  h2 {
+    font-family: 'Basicaline', sans-serif;
+  }
+
+  @font-face {
+    font-family: 'Basicaline';
+    src: url('/fonts/Basicaline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
