@@ -24,6 +24,7 @@ import '@fontsource-variable/jetbrains-mono'
     --main-source: 'JetBrains Mono Variable', monospace;
 
     --primary: #ff7129;
+    --primary-light: #8e2100;
     --stroke: #1b1919;
   }
 
@@ -34,7 +35,7 @@ import '@fontsource-variable/jetbrains-mono'
       height: 0.3rem;
     }
     ::-webkit-scrollbar-thumb {
-      background: var(--primary);
+      background: var(--primary-light);
       border-radius: 100vw;
     }
     ::-webkit-scrollbar-track {
@@ -49,11 +50,11 @@ import '@fontsource-variable/jetbrains-mono'
     /* selection */
     ::-moz-selection {
       background-color: var(--stroke);
-      color: var(--primary);
+      color: var(--primary-light);
     }
     ::selection {
       background-color: var(--stroke);
-      color: var(--primary);
+      color: var(--primary-light);
     }
     scrollbar-gutter: stable;
   }
@@ -74,6 +75,37 @@ import '@fontsource-variable/jetbrains-mono'
     body {
       color: var(--light);
       background-color: var(--dark);
+    }
+
+    html {
+      /* Scroll */
+      ::-webkit-scrollbar {
+        width: 0.2rem;
+        height: 0.3rem;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 100vw;
+      }
+      ::-webkit-scrollbar-track {
+        margin-block: 0.1rem;
+        margin-inline: 0.1rem;
+        background: var(--stroke);
+      }
+      ::-webkit-scrollbar-corner {
+        display: none;
+      }
+
+      /* selection */
+      ::-moz-selection {
+        background-color: var(--stroke);
+        color: var(--primary);
+      }
+      ::selection {
+        background-color: var(--stroke);
+        color: var(--primary);
+      }
+      scrollbar-gutter: stable;
     }
   }
 </style>

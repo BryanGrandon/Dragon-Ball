@@ -15,51 +15,55 @@ export async function getStaticPaths() {
 const { id } = Astro.params
 
 const data = await getCharacterForId(`${id}`)
-const { name, image, ki, maxKi, race, description, transformations, originPlanet } = data
+const { name, image, ki, maxKi, race, description, transformations, originPlanet, gender } = data
 ---
 
 <Layout title={`Character`}>
   <header>
     <h1 class='text-4xl'>{name}</h1>
   </header>
-  <main class='max-width p-4 grid gap-8'>
-    <article class=''>
-      <section class='grid grid-cols-1 lg:grid-cols-[1fr_2.5fr] gap-8'>
+  <main class='max-width p-4 grid'>
+    <article class='grid grid-cols-1 lg:grid-cols-[20rem_2.5fr] lg:gap-8'>
+      <section class='grid grid-cols-1 sm:grid-cols-[20rem_2.5fr] lg:flex lg:flex-col gap-8'>
         <section
-          class='pt-12 pb-18 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-bottom overlay overflow-hidden shadow-lg shadow-black'
+          class='p-10 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-start overlay overflow-hidden shadow-md shadow-black'
         >
           <img src={image} alt={`img-${name}`} class='h-full object-contain max-h-85 relative m-auto' />
-          <Tag text='Origin:' highlight={originPlanet.name} theClass='absolute top-2 left-4' />
-          <section class='absolute bottom-2 left-4 flex flex-col gap-1'>
-            <Tag text='Ki:' highlight={ki} />
-            <Tag text='Max Ki:' highlight={maxKi} />
-          </section>
-          <Tag text='Race:' highlight={race} theClass='absolute bottom-2 right-4' />
-          <img src={originPlanet.image} alt={`img-planet-${originPlanet.name}`} class='h-20 object-contain rounded-md absolute top-0 right-0' />
         </section>
-        <article class='prose-lg dark:prose-invert'>
+        <section class='flex flex-col gap-2 p-4'>
+          <Tag text='Race:' highlight={race} />
+          <Tag text='Gender:' highlight={gender} />
+          <Tag text='Origin Planet:' highlight={originPlanet.name} />
+          <Tag text='Ki:' highlight={ki} />
+          <Tag text='Max Ki:' highlight={maxKi} />
+        </section>
+      </section>
+      <article class='prose-lg dark:prose-invert'>
+        <section>
           <h2>Description</h2>
           <p>{description}</p>
-        </article>
-      </section>
-    </article>
+        </section>
 
-    <article class='prose-lg dark:prose-invert'>
-      <h2>Origin Planet: {originPlanet.name}</h2>
-      <p>{originPlanet.description}</p>
-    </article>
+        <section>
+          <h2>Origin Planet: {originPlanet.name}</h2>
+          <p>{originPlanet.description}</p>
+        </section>
 
-    {
-      transformations.length !== 0 ? (
-        <article>
-          <h2>Transformations</h2>
-          <section class='grid grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-4'>
-            {transformations.map((transformation) => (
-              <CharacterCard name={transformation.name} ki={transformation.ki} image={transformation.image} id={id} />
-            ))}
-          </section>
-        </article>
-      ) : null
-    }
+        {
+          transformations.length !== 0 ? (
+            <article>
+              <h2>Transformations</h2>
+              <section class='grid grid-cols-[repeat(auto-fill,_minmax(14rem,_1fr))] gap-4 not-prose'>
+                {transformations.map((transformation) => (
+                  <CharacterCard name={transformation.name} ki={transformation.ki} image={transformation.image} id={id} />
+                ))}
+              </section>
+            </article>
+          ) : null
+        }
+      </article>
+    </article>
   </main>
 </Layout>
+
+<style></style>

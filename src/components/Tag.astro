@@ -2,4 +2,4 @@
 const { theClass = '', text, highlight } = Astro.props
 ---
 
-<div class={theClass}>{text} <span class='text-secondary'>{highlight}</span></div>
+<div class={`font-bold ${theClass}`}>{text} <span class='dark:text-secondary text-secondary-light'>{highlight}</span></div>
