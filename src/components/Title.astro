@@ -8,7 +8,7 @@ interface Props {
 const { text = '', theClass, highlight } = Astro.props
 ---
 
-<h2 id='title' class={`text-3xl font-bold tracking-wide ${theClass}`}>{text} {highlight ? <span class='text-primary-light dark:text-primary '>{highlight}</span> : null}</h2>
+<h2 id='title' class={`text-3xl font-bold tracking-wide ${theClass}`}>{text} {highlight ? <span class='text-primary '>{highlight}</span> : null}</h2>
 
 <style>
   h2 {

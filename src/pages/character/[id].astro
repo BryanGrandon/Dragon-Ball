@@ -29,17 +29,18 @@ const { name, image, ki, maxKi, race, description, transformations, originPlanet
 
 const infoPrev = await getCharacterForId(`${Number(id) - 1}`)
 const infoNext = await getCharacterForId(`${1 + Number(id)}`)
+
+const prev = infoPrev.statusCode !== 400 ? `/character/${Number(id) - 1}` : '/'
 const next = `/character/` + (1 + Number(id))
-const prev = `/character/` + (Number(id) - 1)
 ---
 
 <Layout title={`Character`}>
-  <header class='bg-primary-light dark:bg-primary sticky top-0 z-10'>
-    <article class='flex items-center justify-between max-width px-4 py-2 text-white dark:text-black'>
+  <header class='bg-primary sticky top-0 z-10'>
+    <article class='flex items-center justify-between max-width px-4 py-2 text-black'>
       <a href='/' class='hover:scale-115'><IHome /></a>
       <Title text={name} />
       <section class='flex items-center gap-4'>
-        <a href={infoPrev.statusCode !== 400 ? prev : '/'} class='hover:scale-115'><IPrev /></a>
+        <a href={prev} class='hover:scale-115'><IPrev /></a>
         {
           infoNext.statusCode !== 400 ? (
             <a href={next} class='hover:scale-115'>
@@ -50,11 +51,11 @@ const prev = `/character/` + (Number(id) - 1)
       </section>
     </article>
   </header>
-  <main class='max-width p-4 grid'>
-    <article class='grid grid-cols-1 lg:grid-cols-[20rem_2.5fr] lg:gap-8'>
+  <main class='p-4 bg-[url("https://images.pexels.com/photos/1694000/pexels-photo-1694000.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")] bg-contain bg-center overlay'>
+    <article class='grid grid-cols-1 lg:grid-cols-[20rem_2.5fr] lg:gap-8 relative max-width'>
       <section class='grid grid-cols-1 sm:grid-cols-[20rem_2.5fr] lg:flex lg:flex-col gap-8 pt-10'>
         <section
-          class='p-10 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-start overlay overflow-hidden shadow-md shadow-black'
+          class='p-10 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-start overlay overflow-hidden shadow-md shadow-gray-800'
         >
           <img src={image} alt={`img-${name}`} class='h-full object-contain max-h-85 relative m-auto drop-shadow-md drop-shadow-gray-500' />
         </section>
