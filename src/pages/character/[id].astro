@@ -1,7 +1,8 @@
 ---
-import { transformer } from 'astro:schema'
+import { URL_API } from '../../constants/apis'
+import { getCharacters } from '../../services/getCharacters'
+import { getCharacterForId } from '../../services/getCharacterForId'
 import Layout from '../../layouts/Layout.astro'
-import { getCharacters, getCharacterForId } from '../../services/dragonBall'
 import CharacterCard from '../../components/CharacterCard.astro'
 import INext from '../../components/icons/INext.astro'
 import IPrev from '../../components/icons/IPrev.astro'
@@ -10,7 +11,7 @@ import Tag from '../../components/Tag.astro'
 import Title from '../../components/Title.astro'
 
 export async function getStaticPaths() {
-  const characters = await getCharacters()
+  const { characters } = await getCharacters(`${URL_API}?limit=100000`)
   return characters.map(({ id }) => ({
     params: { id: id.toString() },
   }))
@@ -19,19 +20,27 @@ export async function getStaticPaths() {
 export const prerender = true
 
 const { id } = Astro.params
-const info = await getCharacterForId(`${id}`)
+const info = await getCharacterForId(id)
 
 if (info.statusCode === 400) {
   return Astro.redirect(`/character/${1 + Number(id)}`)
 }
 
-const { name, image, ki, maxKi, race, description, transformations, originPlanet, gender } = info
+const { name, image, description, transformations, originPlanet } = info
 
 const infoPrev = await getCharacterForId(`${Number(id) - 1}`)
 const infoNext = await getCharacterForId(`${1 + Number(id)}`)
 
 const prev = infoPrev.statusCode !== 400 ? `/character/${Number(id) - 1}` : '/'
 const next = `/character/` + (1 + Number(id))
+
+const statistics = [
+  { name: 'Race', value: info.race },
+  { name: 'Gender', value: info.gender },
+  { name: 'Origin Planet', value: originPlanet.name },
+  { name: 'Ki', value: info.ki },
+  { name: 'Max Ki', value: info.maxKi },
+]
 ---
 
 <Layout title={`Character`}>
@@ -55,16 +64,12 @@ const next = `/character/` + (1 + Number(id))
     <article class='grid grid-cols-1 lg:grid-cols-[20rem_2.5fr] lg:gap-8 relative max-width'>
       <section class='grid grid-cols-1 sm:grid-cols-[20rem_2.5fr] lg:flex lg:flex-col gap-8 pt-10'>
         <section
-          class='p-10 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-start overlay overflow-hidden shadow-md shadow-gray-800'
+          class='p-10 justify-center rounded-xl bg-[url("https://c.wallhere.com/photos/b9/00/Dragon_Ball_Fortnite-2157419.jpg!d")] bg-cover bg-start overlay overflow-hidden shadow-md shadow-gray-700'
         >
           <img src={image} alt={`img-${name}`} class='h-full object-contain max-h-85 relative m-auto drop-shadow-md drop-shadow-gray-500' />
         </section>
         <section class='flex flex-col gap-2 p-4'>
-          <Tag text='Race:' highlight={race} />
-          <Tag text='Gender:' highlight={gender} />
-          <Tag text='Origin Planet:' highlight={originPlanet.name} />
-          <Tag text='Ki:' highlight={ki} />
-          <Tag text='Max Ki:' highlight={maxKi} />
+          {statistics.map(({ name, value }) => <Tag text={name} highlight={value} />)}
         </section>
       </section>
       <article class='prose-lg dark:prose-invert'>
@@ -72,12 +77,10 @@ const next = `/character/` + (1 + Number(id))
           <Title text='Description' theClass='tracking-widest' />
           <p>{description}</p>
         </section>
-
         <section>
           <Title text='Origin Planet:' theClass='tracking-widest' highlight={originPlanet.name} />
           <p>{originPlanet.description}</p>
         </section>
-
         {
           transformations.length !== 0 ? (
             <article>
