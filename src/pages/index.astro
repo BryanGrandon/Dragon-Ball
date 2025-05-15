@@ -3,6 +3,8 @@ import { URL_API_LIMIT } from '../constants/apis'
 import { getCharacters } from '../services/getCharacters'
 import Layout from '../layouts/Layout.astro'
 import CharacterCard from '../components/CharacterCard.astro'
+import ILinkedin from '../components/icons/ILinkedin.astro'
+import IGithub from '../components/icons/IGithub.astro'
 
 let showCharacters = []
 let theUrl = ''
@@ -22,11 +24,15 @@ theUrl = links.next
     </p>
   </header>
   <main class='bg-[url("https://images.pexels.com/photos/1694000/pexels-photo-1694000.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")] bg-contain bg-center p-4 overlay'>
-    <article>
-      <article class='grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-4 max-width'>
+    <article class='max-width'>
+      <article class='grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-4'>
         {characters.map((character) => <CharacterCard name={character.name} image={character.image} ki={character.ki} id={character.id} />)}
       </article>
-      <button id='btn'>More</button>
     </article>
   </main>
+  <footer class='bg-primary text-center p-2 flex items-center justify-center gap-8 text-black w-full'>
+    <a href='#' class='hover:scale-115'><ILinkedin /></a>
+    <p>@Bryan Grandón</p>
+    <a href='#' class='hover:scale-115'><IGithub /></a>
+  </footer>
 </Layout>
