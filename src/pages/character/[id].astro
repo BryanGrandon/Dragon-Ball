@@ -23,7 +23,7 @@ const { id } = Astro.params
 const info = await getCharacterForId(id)
 
 if (info.statusCode === 400) {
-  return Astro.redirect(`/character/${1 + Number(id)}`)
+  return Astro.redirect(`/Dragon-Ball/character/${1 + Number(id)}`)
 }
 
 const { name, image, description, transformations, originPlanet } = info
@@ -31,8 +31,8 @@ const { name, image, description, transformations, originPlanet } = info
 const infoPrev = await getCharacterForId(`${Number(id) - 1}`)
 const infoNext = await getCharacterForId(`${1 + Number(id)}`)
 
-const prev = infoPrev.statusCode !== 400 ? `/character/${Number(id) - 1}` : '/'
-const next = `/character/` + (1 + Number(id))
+const prev = infoPrev.statusCode !== 400 ? `/Dragon-Ball/character/${Number(id) - 1}` : '/Dragon-Ball/'
+const next = `/Dragon-Ball/character/` + (1 + Number(id))
 
 const statistics = [
   { name: 'Race', value: info.race },
@@ -46,7 +46,7 @@ const statistics = [
 <Layout title={`Character`}>
   <header class='bg-primary sticky top-0 z-10'>
     <article class='flex items-center justify-between max-width px-4 py-2 text-black'>
-      <a href='/' class='hover:scale-115'><IHome /></a>
+      <a href='/Dragon-Ball/' class='hover:scale-115'><IHome /></a>
       <Title text={name} />
       <section class='flex items-center gap-4'>
         <a href={prev} class='hover:scale-115'><IPrev /></a>
