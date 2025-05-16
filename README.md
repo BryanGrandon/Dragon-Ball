@@ -1,5 +1,7 @@
 # Dragon Ball
 
+In this web site you can find some of the dragon ball characters from the anime series.
+
 - [🌐 Website Demo.](https://bryangrandon.github.io/Dragon-Ball/)
 
 ## 📚 Technologies Used
