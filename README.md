@@ -1,7 +1,8 @@
 # Dragon Ball
 
-In this web site you can find some of the dragon ball characters from the anime series.
+Dragon Ball is a website for quickly and visually exploring characters and information from the Dragon Ball universe.
 
+- [API.](https://dragonball-api.com/api/characters)
 - [🌐 Website Demo.](https://bryangrandon.github.io/Dragon-Ball/)
 
 ## 📚 Technologies Used
